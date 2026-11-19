@@ -1,5 +1,6 @@
 import random
 from enum import Enum
+from collections import Counter
 
 
 class Taste(Enum):
@@ -14,7 +15,7 @@ class Topping(Enum):
     YOGURT = 3
 
     @property
-    def taste(self):
+    def Topping.taste(self):
         if self == Topping.HONEY:
             return Taste.SWEET
         elif self == Topping.LEMON:
@@ -90,23 +91,17 @@ class FruitSalad:
         return result
 
     def choose_topping(self):
-        sweet = 0
-        sour = 0
-        neutral = 0
-        for fruit in self.fruits:
-            if fruit.get_taste() == Taste.NEUTRAL:
-                neutral += 1
-            elif fruit.get_taste() == Taste.SWEET:
-                sweet += 1
-            elif fruit.get_taste() == Taste.SOUR:
-                sour += 1
+    tastes = Counter(fruit.get_taste() for fruit in self.fruits)
+    sweet = tastes[Taste.SWEET]
+    sour = tastes[Taste.SOUR]
+    neutral = tastes[Taste.NEUTRAL]
 
-        if sweet > neutral and sweet > sour:
-            self.toppings = Topping.LEMON
-        elif sour > neutral and sour > sweet:
-            self.toppings = Topping.HONEY
-        else:
-            self.toppings = Topping.YOGURT
+    if sweet > neutral and sweet > sour:
+        self.toppings = Topping.LEMON
+    elif sour > neutral and sour > sweet:
+        self.toppings = Topping.HONEY
+    else:
+        self.toppings = Topping.YOGURT
 
     def mix(self):
         random.shuffle(self.fruits)
