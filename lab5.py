@@ -80,16 +80,14 @@ class FruitSalad:
         print("Фруктовий салат видалено")
 
     def __str__(self):
-        topping_info = (
-            self.toppings.name
-            if isinstance(self.toppings, Topping)
-            else self.toppings
-        )
-        result = f"Топінг: {topping_info}\n"
-        for fruit in self.fruits:
-            result += f"{fruit}\n"
-        return result
-
+    topping_info = (
+        self.toppings.name
+        if isinstance(self.toppings, Topping)
+        else self.toppings
+    )
+    lines = [f"Топінг: {topping_info}"]
+    lines.extend(str(fruit) for fruit in self.fruits)
+    return "\n".join(lines)
     def choose_topping(self):
     tastes = Counter(fruit.get_taste() for fruit in self.fruits)
     sweet = tastes[Taste.SWEET]
